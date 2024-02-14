@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello world")
-	http.HandleFunc("/", handler.Handler)
+	http.HandleFunc("/*", handler.Handler)
 
+	fmt.Println("listening at http://localhost:8000")
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		log.Fatal("something went wrong when serving")
