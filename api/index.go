@@ -12,7 +12,8 @@ import (
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	img, err := combineImages([]string{"static/body/1.png", "static/lips/1.png"})
+	imagePaths := getImages(1, 1, 3, 4, 5, 6)
+	img, err := combineImages(imagePaths)
 	if err != nil {
 		fmt.Fprint(w, err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -41,7 +42,19 @@ glasses
 hats
 */
 
+func getImages(body int, eyes int, lips int, shirts int, glasses int, hats int) []string {
+	return []string{
+		fmt.Sprintf("static/body/%d.png", body),
+		fmt.Sprintf("static/eyes/%d.png", eyes),
+		fmt.Sprintf("static/lips/%d.png", lips),
+		fmt.Sprintf("static/shirts/%d.png", shirts),
+		fmt.Sprintf("static/glasses/%d.png", glasses),
+		fmt.Sprintf("static/hats/%d.png", hats),
+	}
+}
+
 func combineImages(imgPaths []string) (*image.RGBA, error) {
+	log.Print("combining", imgPaths)
 	var rgbaImages []*image.RGBA
 	width := 0
 	height := 0
