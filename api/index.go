@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"image"
 	"image/color"
@@ -12,7 +13,19 @@ import (
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	imagePaths := getImages(1, 1, 3, 4, 5, 6)
+	key := r.URL.Path
+	log.Print(key)
+	id := hashToIndices(key)
+
+	imagePaths := getImages(
+		id[0],
+		id[1],
+		id[2],
+		id[3],
+		id[4],
+		id[5],
+	)
+
 	img, err := combineImages(imagePaths)
 	if err != nil {
 		fmt.Fprint(w, err)
@@ -27,10 +40,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	key := r.URL.Query().Get("key")
-	log.Println(key)
-	fmt.Fprintf(w, "Key: {%s}", key)
 }
 
 /*
@@ -41,6 +50,18 @@ shirs
 glasses
 hats
 */
+
+func hashToIndices(key string) [6]int {
+	hash := sha256.Sum224([]byte(key))
+	return [6]int{
+		1 + int(hash[0]%20),
+		1 + int(hash[4]%6),
+		1 + int(hash[8]%4),
+		1 + int(hash[12]%17),
+		1 + int(hash[16]%8),
+		1 + int(hash[20]%10),
+	}
+}
 
 func getImages(body int, eyes int, lips int, shirts int, glasses int, hats int) []string {
 	return []string{
