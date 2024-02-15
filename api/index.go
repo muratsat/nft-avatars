@@ -57,20 +57,22 @@ func hashToIndices(key string) [6]int {
 		1 + int(hash[0]%20),
 		1 + int(hash[4]%6),
 		1 + int(hash[8]%4),
-		1 + int(hash[12]%17),
+		1 + int(hash[12]%16),
 		1 + int(hash[16]%8),
 		1 + int(hash[20]%10),
 	}
 }
 
 func getImages(body int, eyes int, lips int, shirts int, glasses int, hats int) []string {
+	// prefix := os.Getenv("STATIC_PATH")
+	prefix := "/usr/share/static"
 	return []string{
-		fmt.Sprintf("static/body/%d.png", body),
-		fmt.Sprintf("static/eyes/%d.png", eyes),
-		fmt.Sprintf("static/lips/%d.png", lips),
-		fmt.Sprintf("static/shirts/%d.png", shirts),
-		fmt.Sprintf("static/glasses/%d.png", glasses),
-		fmt.Sprintf("static/hats/%d.png", hats),
+		fmt.Sprintf("%s/body/%d.png", prefix, body),
+		fmt.Sprintf("%s/eyes/%d.png", prefix, eyes),
+		fmt.Sprintf("%s/lips/%d.png", prefix, lips),
+		fmt.Sprintf("%s/shirts/%d.png", prefix, shirts),
+		fmt.Sprintf("%s/glasses/%d.png", prefix, glasses),
+		fmt.Sprintf("%s/hats/%d.png", prefix, hats),
 	}
 }
 

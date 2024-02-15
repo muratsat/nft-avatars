@@ -4,6 +4,12 @@ https://github.com/muratsat/nft-avatars/assets/51270744/6e83bb49-c378-4a18-93cc-
 
 ## How to run:
 
-`go build -o server && ./server`
+1. Build docker image:
 
+   `docker build -t nft-avatars:latest`
 
+2. Run docker image:
+
+   `docker run -p 8080:8080 -t nft-avatars:latest`
+
+3. Done, the app will be available at [http://localhost:8080](http://localhost:8080)
